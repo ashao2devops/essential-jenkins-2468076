@@ -1,4 +1,4 @@
-# Jenkins Essential Training update
+# Jenkins Essential Training update 2
 This is the repository for the LinkedIn Learning course Jenkins Essential Training. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![Jenkins Essential Training][lil-thumbnail-url] 
