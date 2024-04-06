@@ -1,4 +1,7 @@
 # Jenkins Essential Training update 2
+[text](Ch03/03_03-run-scripts-from-the-pipeline/Jenkinsfile)
+http://192.168.0.237:8080/buildStatus/icon?job=jenkinsfile-on-github
+
 This is the repository for the LinkedIn Learning course Jenkins Essential Training. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![Jenkins Essential Training][lil-thumbnail-url] 
