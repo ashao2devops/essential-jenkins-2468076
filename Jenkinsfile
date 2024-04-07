@@ -1,38 +1,34 @@
 pipeline {
-    agent any
-    parameters {
-        choice(name: 'NUMBER',
-            choices: [10,20,30,40,50,60,70,80,90],
-            description: 'Select the value for F(n) for the Fibonnai sequence.')
-    }
-    options {
-        buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '10'))
-        timeout(time: 12, unit: 'HOURS')
-        timestamps()
-    }
-    triggers {
-        cron '@midnight'
+    agent {
+        docker { image 'public.ecr.aws/docker/library/maven:3.9-sapmachine' }
     }
     stages {
-        stage('Make executable') {
+        stage('Source') {
             steps {
-                sh('chmod +x ./scripts/fibonacci.sh')
+                sh 'mvn --version'
+                sh 'git --version'
+                git branch: 'main',
+                    url: 'https://github.com/LinkedInLearning/essential-jenkins-2468076.git'
             }
         }
-        stage('Relative path') {
+        stage('Clean') {
             steps {
-                sh("./scripts/fibonacci.sh ${env.NUMBER}")
+                dir("${env.WORKSPACE}/Ch04/04_03-docker-agent"){
+                    sh 'mvn clean'
+                }
             }
         }
-        stage('Full path') {
+        stage('Test') {
             steps {
-                sh("${env.WORKSPACE}/scripts/fibonacci.sh ${env.NUMBER}")
+                dir("${env.WORKSPACE}/Ch04/04_03-docker-agent"){
+                    sh 'mvn test'
+                }
             }
         }
-        stage('Change directory') {
+        stage('Package') {
             steps {
-                dir("${env.WORKSPACE}/scripts"){
-                    sh("./fibonacci.sh ${env.NUMBER}")
+                dir("${env.WORKSPACE}/Ch04/04_03-docker-agent"){
+                    sh 'mvn package -DskipTests'
                 }
             }
         }
